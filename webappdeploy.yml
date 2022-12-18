@@ -1,0 +1,24 @@
+trigger:
+  - develop
+parameters:
+  - name: appName
+    displayName: "The web app where the deployment needs to take place."
+    type: string
+    default: ""
+  - name: packageName
+    displayName: "Package name to be used for deploying web app."
+    type: string
+    default: ""
+
+- jobs:
+  - job:
+    pool:
+      vmImage: "windows-latest"
+  
+    steps:
+    - task: AzureWebApp@1
+      inputs:
+        azureSubscription: "$(azureSubscription)"
+        appType: "webAppWindows"
+        appName: "$(appName)"
+        package: "$(System.DefaultWorkingDirectory)/**/$(packageName).zip"
